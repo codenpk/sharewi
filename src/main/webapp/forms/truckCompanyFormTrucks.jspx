@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:t="http://myfaces.apache.org/tomahawk"
+          xmlns:v="http://corejsf.com/validator"
+          xmlns:a4j="http://richfaces.org/a4j" xmlns:rich="http://richfaces.org/rich">
+
+<f:view>
+<f:loadBundle var="text" basename="#{basePage.bundleName}"/>
+
+<ui:composition>
+
+<table class="detail" cellpadding="5">
+    <tr>
+        <th>#{text['truckCompany.name']}</th>
+        <td>#{truckCompanyForm.truckCompany.name}</td>
+    </tr>
+    <tr>
+        <th>#{text['truckCompany.contact']}</th>
+        <td>#{truckCompanyForm.truckCompany.contact}</td>
+    </tr>
+    <tr>
+        <th>#{text['truckCompany.email']}</th>
+        <td>#{truckCompanyForm.truckCompany.email}</td>
+    </tr>
+    <tr>
+        <th>#{text['truckCompany.phone']}</th>
+        <td>#{truckCompanyForm.truckCompany.phone}</td>
+    </tr>
+</table>
+
+<div class="section"/>
+
+<a4j:form id="addVehicleForm">
+    <rich:dataTable id="vehicle" var="vehicleVar" value="#{truckCompanyForm.vehicle}" rows="1"
+                    style="margin-top:2em;" width="100%">
+        <f:facet name="header">
+            <rich:columnGroup>
+                <rich:column width="25%">
+                    <t:outputLabel for="vehicleCapacity" value="#{text['vehicle.capacity']}"/>
+                </rich:column>
+                <rich:column width="10%">
+                    <t:outputLabel value="Units"/>
+                </rich:column>
+                <rich:column width="50%">
+                    <t:outputLabel for="vehicleDescription" value="#{text['vehicle.description']}"/>
+                </rich:column>
+                <rich:column width="15%">
+                    <t:outputLabel value="Action"/>
+                </rich:column>
+            </rich:columnGroup>
+        </f:facet>
+        <rich:column>
+            <t:inputText styleClass="text medium" id="vehicleCapacity" value="#{vehicleVar.capacity}" required="true">
+                <v:commonsValidator type="required" arg="#{text['vehicle.capacity']}" client="true" server="true"/>
+            </t:inputText>
+            <t:message for="vehicleCapacity" styleClass="fieldError"/>
+        </rich:column>
+        <rich:column>
+            <t:outputText value="unit"/>
+        </rich:column>
+        <rich:column>
+            <t:inputText styleClass="text large" id="vehicleDescription" value="#{vehicleVar.description}"/>
+            <t:message for="vehicleDescription" styleClass="fieldError"/>
+        </rich:column>
+        <rich:column>
+            <a4j:commandButton id="vehicleAdd" value="#{text['button.add']}" action="#{truckCompanyForm.addVehicle}"
+                               reRender="addVehicleForm,editVehicleForm"/>
+            <input type="button" id="vehicleClear" value="#{text['button.cancel']}"
+                   onclick="$('addVehicleForm').reset();"/>
+        </rich:column>
+    </rich:dataTable>
+</a4j:form>
+
+<a4j:form id="editVehicleForm">
+    <rich:dataTable id="vehicles" var="vehicleVar" value="#{truckCompanyForm.vehicles}" style="margin-top:1em;"
+                    width="100%" rows="10" binding="#{truckCompanyForm.vehicleDataTable}">
+        <f:facet name="header">
+            <rich:columnGroup>
+                <rich:column width="25%">
+                    <t:outputLabel for="vehicleNameTable" value="#{text['vehicle.capacity']}"/>
+                </rich:column>
+                <rich:column width="10%">
+                    <t:outputLabel value="Units"/>
+                </rich:column>
+                <rich:column width="50%">
+                    <t:outputLabel for="vehicleDescriptionTable" value="#{text['vehicle.description']}"/>
+                </rich:column>
+                <rich:column width="15%">
+                    <t:outputLabel value="Action"/>
+                </rich:column>
+            </rich:columnGroup>
+        </f:facet>
+
+        <rich:column>
+            <t:div rendered="#{vehicleVar.isEditable}">
+                <t:inputText id="vehicleNameTable" value="#{vehicleVar.capacity}" styleClass="text medium"
+                             required="true">
+                    <v:commonsValidator type="required" arg="#{text['vehicle.capacity']}" client="true" server="true"/>
+                </t:inputText>
+                <t:message for="vehicleNameTable" styleClass="fieldError"/>
+            </t:div>
+            <t:div rendered="#{!vehicleVar.isEditable}">
+                <t:outputText value="#{vehicleVar.capacity}"/>
+            </t:div>
+        </rich:column>
+
+        <rich:column>
+            <t:outputText value="unit"/>
+        </rich:column>
+
+        <rich:column>
+            <t:div rendered="#{vehicleVar.isEditable}">
+                <t:inputText styleClass="text large" id="vehicleDescriptionTable" value="#{vehicleVar.description}"/>
+            </t:div>
+            <t:div rendered="#{!vehicleVar.isEditable}">
+                <t:outputText value="#{vehicleVar.description}"/>
+            </t:div>
+        </rich:column>
+
+        <rich:column>
+            <t:div rendered="#{vehicleVar.isEditable}">
+                <a4j:commandButton id="vehicleSave" value="#{text['button.save']}" reRender="editVehicleForm"
+                                   action="#{truckCompanyForm.saveEditVehicle}"/>
+
+                <a4j:commandButton id="vehicleCancel" value="#{text['button.cancel']}" reRender="editVehicleForm"
+                                   action="#{truckCompanyForm.offEditVehicle}" immediate="true"/>
+            </t:div>
+            <t:div rendered="#{!vehicleVar.isEditable}">
+                <a4j:commandButton id="vehicleEdit" value="#{text['button.edit']}" reRender="editVehicleForm"
+                                   action="#{truckCompanyForm.onEditVehicle}" immediate="true"/>
+
+                <a4j:commandButton id="vehicleDelete" value="#{text['button.delete']}" reRender="editVehicleForm"
+                                   action="#{truckCompanyForm.removeVehicle}" immediate="true"/>
+            </t:div>
+        </rich:column>
+    </rich:dataTable>
+    <rich:datascroller for="vehicles" align="right" maxPages="3" style="margin-top:1em;"/>
+</a4j:form>
+
+<script type="text/javascript" id="scriptEffects">
+    Form.focusFirstElement($('addVehicleForm'));
+    highlightFormElements();
+</script>
+
+</ui:composition>
+</f:view>
+</jsp:root>

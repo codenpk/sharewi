@@ -1,0 +1,18 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:appfuse="http://www.appfuse.org/tags/jsf">
+
+    <div id="branding">
+        <h1>
+            <h:outputLink value="/">
+                <h:outputText value="#{text['webapp.name']}"/>
+            </h:outputLink>
+        </h1>
+
+        <p><h:outputText value="#{text['webapp.tagline']}"/></p>
+    </div>
+
+    <!-- Put constants into request scope -->
+    <appfuse:constants scope="request"/>
+
+</ui:composition>        

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html">
+
+
+<ui:composition>
+
+    <div id="divider">
+        <div/>
+    </div>
+
+    <span class="left">
+        <h:outputText value="#{text['webapp.version']}"/>
+        <h:outputText value="&#160;|"/>
+
+        <span id="validators">
+            <h:outputLink value="http://validator.w3.org/check?uri=referer">
+                <h:outputText value="XHTML Valid"/>
+            </h:outputLink>
+            <h:outputText value="&#160;|&#160;"/>
+
+            <h:outputLink value="http://jigsaw.w3.org/css-validator/validator-uri.html">
+                <h:outputText value="CSS Valid"/>
+            </h:outputLink>
+            <h:outputText value="&#160;|"/>
+        </span>
+
+        <c:if test="#{not empty request.remoteUser}">
+            <h:outputText value="#{text['user.status']}"/>
+            <h:outputText value="#{request.remoteUser}"/>
+        </c:if>
+    </span>
+
+    <span class="right">
+        <h:outputText value="&#169;#{text['copyright.year']}"/>
+
+        <h:outputLink value="#{text['company.url']}">
+            <h:outputText value="&#160;#{text['company.name']}"/>
+        </h:outputLink>
+    </span>
+
+</ui:composition>
+</html>

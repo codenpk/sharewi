@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j" xmlns:rich="http://richfaces.org/rich">
+
+<ui:composition>
+
+    <a4j:region id="eventCalendarRegion">
+        <a4j:form id="calForm">
+            <rich:calendar id="eventCalendar" reRender="eventCalendarRegion"
+                           binding="#{eventCalendarBean.calendar}"
+                           dataModel="#{eventCalendarDataModel}"
+                           value="#{eventCalendarBean.selectedDate}">
+                <f:facet name="header">
+                    <table border="0" width="100%" cellpadding="0" cellspacing="1" style="margin-bottom:0">
+                        <tbody>
+                            <tr>
+                                <td class="rich-calendar-tool">{previousMonthControl}</td>
+                                <td class="rich-calendar-month">{currentMonthControl}</td>
+                                <td class="rich-calendar-tool">{nextMonthControl}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </f:facet>
+                <f:facet name="footer">
+                    <div class="rich-calendar-toolfooter" align="right">{todayControl}</div>
+                </f:facet>
+                <f:facet name="optionalFooter">
+                    <div align="center">Time zone: #{eventCalendarBean.calendar.timeZone.ID}</div>
+                </f:facet>
+                <a4j:support event="ondateselected" action="#{eventCalendarBean.listEvents}"/>
+            </rich:calendar>
+        </a4j:form>
+    </a4j:region>
+
+</ui:composition>
+</html>

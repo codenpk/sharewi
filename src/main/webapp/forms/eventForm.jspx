@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:t="http://myfaces.apache.org/tomahawk"
+          xmlns:v="http://corejsf.com/validator" xmlns:p="http://p7k.org/templates">
+
+    <f:view>
+        <f:loadBundle var="text" basename="#{basePage.bundleName}"/>
+
+        <ui:composition template="../decorators/default-facelet.xhtml">
+
+            <ui:define name="main">
+
+                <h:form id="eventForm">
+                    <t:inputHidden value="#{eventForm.event.id}" id="id"/>
+
+                    <t:outputLabel styleClass="desc" value="Basic Information"/>
+                    <h:panelGrid id="basic_FormGroup">
+                        <t:div styleClass="group">
+                            <t:div>
+                                <t:outputLabel styleClass="desc" for="name" value="#{text['event.name']}"/>
+                                <t:message for="name" styleClass="fieldError"/>
+                                <t:inputText styleClass="text large" id="name" value="#{eventForm.event.name}"
+                                             required="true">
+                                    <v:commonsValidator type="required" arg="#{text['event.name']}" client="true"
+                                                        server="true"/>
+                                </t:inputText>
+                            </t:div>
+                            <t:div>
+                                <t:outputLabel for="note" styleClass="desc" value="#{text['event.note']}"/>
+                                <t:inputTextarea id="note" value="#{eventForm.event.note}" styleClass="textarea small"/>
+                            </t:div>
+                        </t:div>
+                    </h:panelGrid>
+
+                    <t:outputLabel styleClass="desc" value="Locations"/>
+                    <h:panelGrid id="locationsGroup">
+                        <t:div styleClass="group">
+                            <t:outputText value="#{eventForm.event.customerCount}"/>
+                        </t:div>
+                    </h:panelGrid>
+
+                    <t:panelGrid id="buttons" columns="3">
+                        <t:panelGroup styleClass="buttonBar bottom">
+                            <t:commandButton value="#{text['button.save']}" action="#{eventForm.save}"
+                                             styleClass="button"
+                                             onclick="fetchGeocodeMap(); return validateEventForm(eventForm);"/>
+                            <t:commandButton value="#{text['button.delete']}" action="#{eventForm.delete}"
+                                             styleClass="button" render="#{eventForm.event.id != null}"
+                                             onclick="bCancel=true; return confirmDelete('Event');"/>
+                            <t:commandButton value="#{text['button.cancel']}" action="cancel" immediate="true"
+                                             styleClass="button"
+                                             onclick="bCancel=true;"/>
+                        </t:panelGroup>
+                    </t:panelGrid>
+
+                    <v:validatorScript functionName="validateEventForm"/>
+                </h:form>
+
+                <script type="text/javascript" id="scriptEffects">
+                    Form.focusFirstElement($('eventForm'));
+                    highlightFormElements();
+                </script>
+            </ui:define>
+
+
+            <ui:define name="local-nav">
+            </ui:define>
+
+            <ui:define name="head">
+                <meta name="menu" content="EventMenu"/>
+            </ui:define>
+
+            <ui:define name="title">#{text['eventForm.title']}</ui:define>
+            <ui:define name="heading">#{text['eventForm.heading']}</ui:define>
+
+        </ui:composition>
+    </f:view>
+</jsp:root>

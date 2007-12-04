@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:t="http://myfaces.apache.org/tomahawk"
+          xmlns:acegi="http://sourceforge.net/projects/jsf-comp/acegijsf"
+          xmlns:a4j="http://richfaces.org/a4j" xmlns:rich="http://richfaces.org/rich">
+    <jsp:directive.page import="org.acegisecurity.ui.rememberme.TokenBasedRememberMeServices"/>
+    <jsp:directive.page import="javax.servlet.http.Cookie"/>
+
+    <f:loadBundle var="text" basename="#{basePage.bundleName}"/>
+
+    <ui:composition template="decorators/default-facelet.xhtml">
+
+        <ui:define name="main">
+            <p>#{text['mainMenu.message']}</p>
+
+            <div class="separator"/>
+
+            <h:form>
+                <ul class="glassList">
+
+                    <li><t:commandLink value="#{text['menu.user']}" action="#{userForm.edit}"/></li>
+                    <li><t:commandLink value="#{text['menu.selectFile']}" action="selectFile"/></li>
+
+                    <acegi:authorize ifAllGranted="ROLE_ADMIN">
+                        <li><t:commandLink value="Ajax4JSF Demo" action="ajax4jsf"/></li>
+                    </acegi:authorize>
+
+                </ul>
+            </h:form>
+        </ui:define>
+
+
+        <ui:define name="head"><meta name="menu" content="MainMenu"/></ui:define>
+
+        <ui:define name="title">#{text['mainMenu.title']}</ui:define>
+
+        <ui:define name="heading">#{text['mainMenu.heading']}</ui:define>
+
+    </ui:composition>
+</jsp:root>

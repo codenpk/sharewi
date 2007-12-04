@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:t="http://myfaces.apache.org/tomahawk"
+          xmlns:v="http://corejsf.com/validator"
+          xmlns:a4j="http://richfaces.org/a4j" xmlns:rich="http://richfaces.org/rich">
+
+    <f:view>
+        <f:loadBundle var="text" basename="#{basePage.bundleName}"/>
+
+        <ui:composition>
+
+        <table class="detail" cellpadding="5">
+            <tr>
+                <th>#{text['truckCompany.name']}</th>
+                <td>#{truckCompanyForm.truckCompany.name}</td>
+            </tr>
+            <tr>
+                <th>#{text['truckCompany.contact']}</th>
+                <td>#{truckCompanyForm.truckCompany.contact}</td>
+            </tr>
+            <tr>
+                <th>#{text['truckCompany.email']}</th>
+                <td>#{truckCompanyForm.truckCompany.email}</td>
+            </tr>
+            <tr>
+                <th>#{text['truckCompany.phone']}</th>
+                <td>#{truckCompanyForm.truckCompany.phone}</td>
+            </tr>
+        </table>
+
+        <div class="section"/>
+
+        <a4j:form id="addFeeForm">
+            <rich:dataTable id="fee" var="feeVar" value="#{truckCompanyForm.fee}" rows="1" style="margin-top:2em;" width="100%">
+                <f:facet name="header">
+                    <rich:columnGroup>
+                        <rich:column width="25%">
+                            <t:outputLabel for="feeName" value="#{text['fee.name']}"/>
+                        </rich:column>
+                        <rich:column width="10%">
+                            <t:outputLabel for="feeType" value="#{text['fee.type']}"/>
+                        </rich:column>
+                        <rich:column width="25%">
+                            <t:outputLabel for="feeAmount" value="#{text['fee.amount']}"/>
+                        </rich:column>
+                        <rich:column width="25%">
+                            <t:outputLabel for="feeDescription" value="#{text['fee.description']}"/>
+                        </rich:column>
+                        <rich:column width="15%">
+                            <t:outputLabel value="Action"/>
+                        </rich:column>
+                    </rich:columnGroup>
+                </f:facet>
+                <rich:column>
+                    <t:inputText styleClass="text medium" id="feeName" value="#{feeVar.name}" required="true">
+                        <v:commonsValidator type="required" arg="#{text['fee.name']}" client="true" server="true"/>
+                    </t:inputText>
+                    <t:message for="feeName" styleClass="fieldError"/>
+                </rich:column>
+                <rich:column>
+                    <t:selectOneMenu id="feeType" value="#{feeVar.type}" required="true">
+                        <f:selectItem itemValue="" itemLabel="---"/>
+                        <f:selectItems value="#{selectItems.feeTypes}"/>
+                        <v:commonsValidator type="required" arg="#{text['fee.type']}" client="true" server="true"/>
+                    </t:selectOneMenu>
+                    <t:message for="feeType" styleClass="fieldError"/>
+                </rich:column>
+                <rich:column>
+                    <t:inputText styleClass="text medium" id="feeAmount" value="#{feeVar.amount}" required="true">
+                        <v:commonsValidator type="required" arg="#{text['fee.amount']}" client="true" server="true"/>
+                    </t:inputText>
+                    <t:message for="feeAmount" styleClass="fieldError"/>
+                </rich:column>
+                <rich:column>
+                    <t:inputText styleClass="text medium" id="feeDescription" value="#{feeVar.description}"/>
+                    <t:message for="feeDescription" styleClass="fieldError"/>
+                </rich:column>
+                <rich:column>
+                    <a4j:commandButton id="feeAdd" value="#{text['button.add']}" reRender="addFeeForm,editFeeForm"
+                                       action="#{truckCompanyForm.addFee}"/>
+                    <input type="button" id="feeClear" value="#{text['button.cancel']}" onclick="$('addFeeForm').reset();"/>
+                </rich:column>
+            </rich:dataTable>
+        </a4j:form>
+
+        <a4j:form id="editFeeForm">
+            <rich:dataTable id="fees" var="feeVar" value="#{truckCompanyForm.fees}" style="margin-top:1em;" width="100%"
+                            rows="10" binding="#{truckCompanyForm.feeDataTable}">
+                <f:facet name="header">
+                    <rich:columnGroup>
+                        <rich:column width="25%">
+                            <t:outputLabel for="feeNameTable" value="#{text['fee.name']}"/>
+                        </rich:column>
+                        <rich:column width="10%">
+                            <t:outputLabel for="feeTypeTable" value="#{text['fee.type']}"/>
+                        </rich:column>
+                        <rich:column width="25%">
+                            <t:outputLabel for="feeAmountTable" value="#{text['fee.amount']}"/>
+                        </rich:column>
+                        <rich:column width="25%">
+                            <t:outputLabel for="feeDescriptionTable" value="#{text['fee.description']}"/>
+                        </rich:column>
+                        <rich:column width="15%">
+                            <t:outputLabel value="Action"/>
+                        </rich:column>
+                    </rich:columnGroup>
+                </f:facet>
+
+                <rich:column>
+                    <t:div rendered="#{feeVar.isEditable}">
+                        <t:inputText id="feeNameTable" value="#{feeVar.name}" styleClass="text medium" required="true">
+                            <v:commonsValidator type="required" arg="#{text['fee.name']}" client="true" server="true"/>
+                        </t:inputText>
+                        <t:message for="feeNameTable" styleClass="fieldError"/>
+                    </t:div>
+                    <t:div rendered="#{!feeVar.isEditable}">
+                        <t:outputText value="#{feeVar.name}"/>
+                    </t:div>
+                </rich:column>
+
+                <rich:column>
+                    <t:div rendered="#{feeVar.isEditable}">
+                        <t:selectOneMenu id="feeTypeTable" value="#{feeVar.type}" required="true">
+                            <f:selectItem itemValue="" itemLabel="---"/>
+                            <f:selectItems value="#{selectItems.feeTypes}"/>
+                            <v:commonsValidator type="required" arg="#{text['fee.type']}" client="true" server="true"/>
+                        </t:selectOneMenu>
+                        <t:message for="feeTypeTable" styleClass="fieldError"/>
+                    </t:div>
+                    <t:div rendered="#{!feeVar.isEditable}">
+                        <t:outputText value="#{feeVar.typeString}"/>
+                    </t:div>
+                </rich:column>
+
+                <rich:column>
+                    <t:div rendered="#{feeVar.isEditable}">
+                        <t:inputText styleClass="text medium" id="feeAmountTable" value="#{feeVar.amount}" required="true">
+                            <v:commonsValidator type="required" arg="#{text['fee.amount']}" client="true" server="true"/>
+                        </t:inputText>
+                        <t:message for="feeAmountTable" styleClass="fieldError"/>
+                    </t:div>
+                    <t:div rendered="#{!feeVar.isEditable}">
+                        <t:outputText value="#{feeVar.amount}"/>
+                    </t:div>
+                </rich:column>
+
+                <rich:column>
+                    <t:div rendered="#{feeVar.isEditable}">
+                        <t:inputText styleClass="text medium" id="feeDescriptionTable" value="#{feeVar.description}"/>
+                    </t:div>
+                    <t:div rendered="#{!feeVar.isEditable}">
+                        <t:outputText value="#{feeVar.description}"/>
+                    </t:div>
+                </rich:column>
+
+                <rich:column>
+                    <t:div rendered="#{feeVar.isEditable}">
+                        <a4j:commandButton id="feeSave" value="#{text['button.save']}" reRender="editFeeForm"
+                                           action="#{truckCompanyForm.saveEditFee}"/>
+
+                        <a4j:commandButton id="feeCancel" value="#{text['button.cancel']}" reRender="editFeeForm"
+                                           action="#{truckCompanyForm.offEditFee}" immediate="true"/>
+                    </t:div>
+                    <t:div rendered="#{!feeVar.isEditable}">
+                        <a4j:commandButton id="feeEdit" value="#{text['button.edit']}" reRender="editFeeForm"
+                                           action="#{truckCompanyForm.onEditFee}" immediate="true"/>
+
+                        <a4j:commandButton id="feeDelete" value="#{text['button.delete']}"  reRender="editFeeForm"
+                                           action="#{truckCompanyForm.removeFee}" immediate="true"/>
+                    </t:div>
+                </rich:column>
+            </rich:dataTable>
+            <rich:datascroller for="fees" align="right" maxPages="3" style="margin-top:1em;"/>
+
+        </a4j:form>
+
+        <script type="text/javascript" id="scriptEffects">
+            Form.focusFirstElement($('addFeeForm'));
+            highlightFormElements();
+        </script>
+
+
+        </ui:composition>
+    </f:view>
+</jsp:root>

@@ -1,0 +1,68 @@
+/* ---  appendix to WUFOO forms --- */
+
+/* - margin between time selectors - */
+form div.left.time {
+    margin-right: 15px !important;
+}
+
+/* ----- FIELDS AND LABELS ----- */
+label.descCUST {
+    margin: 4px 0 3px 0;
+    border: 0;
+    color: #444;
+    font-size: 1em;
+    line-height: 1.3em;
+    font-weight: bold;
+}
+
+
+/* - Fixes the Safari/Firefox - */
+form .SWmedium {
+    width: 165px;
+}
+
+
+/* GOOGLE MAPS API */
+.GMap {
+    display: block;
+    width: 550px;
+    height: 325px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    margin-bottom: 1em;
+}
+
+.GPlacemarks {
+    margin-bottom: 3em;
+}
+
+.GPlacemarks a, a:link a:active {
+    text-decoration: underline;
+}
+.GPlacemarks a:hover {
+    text-decoration: underline;
+}
+/* -----------------*/
+
+.progSpin {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* rich-calendar */
+.rich-calendar-eventful {
+    background-color: #99ff99 !important;
+    color: #000000 !important;
+    font-weight: bold !important;
+}
+
+/* rich tab-panel (fix for typo table*/
+table.rich-tabpanel table{
+    margin: 0 0 0 0;
+}
+
+.rich-tab-active {
+    background-color: beige;
+}

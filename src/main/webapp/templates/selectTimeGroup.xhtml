@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:v="http://corejsf.com/validator"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:t="http://myfaces.apache.org/tomahawk">
+
+<ui:composition>
+
+    <table>
+        <thead>
+            <tr>
+                <th colspan="2"><t:outputLabel value="Opens" styleClass="desc"/></th>
+                <th colspan="2"><t:outputLabel value="Closes" styleClass="desc"/></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <t:selectOneMenu value="#{backingBean['hrOpens']}" id="hrOpens" required="true" styleClass="select">
+                        <f:selectItem itemLabel="---" itemValue=""/>
+                        <f:selectItems value="#{selectItems.hours}"/>
+                        <v:commonsValidator type="required" arg="#{text['location.hours.hr']}"/>
+                    </t:selectOneMenu>
+                    <t:message for="hrOpens" styleClass="fieldError"/>
+
+                    <p><t:outputLabel for="hrOpens" value="#{text['location.hours.hr']}"/></p>
+                </td>
+                <td>
+                    <t:selectOneMenu value="#{backingBean['minOpens']}" id="minOpens" required="true"
+                                     styleClass="select">
+                        <f:selectItem itemLabel="---" itemValue=""/>
+                        <f:selectItems value="#{selectItems.minutes}"/>
+                        <v:commonsValidator type="required" arg="#{text['location.hours.min']}"/>
+                    </t:selectOneMenu>
+                    <t:message for="minOpens" styleClass="fieldError"/>
+
+                    <p><t:outputLabel for="minOpens" value="#{text['location.hours.min']}"/></p>
+                </td>
+                <td>
+                    <t:selectOneMenu value="#{backingBean['hrCloses']}" id="hrCloses" required="true"
+                                     styleClass="select">
+                        <f:selectItem itemLabel="---" itemValue=""/>
+                        <f:selectItems value="#{selectItems.hours}"/>
+                        <v:commonsValidator type="required" arg="#{text['location.hours.hr']}"/>
+                    </t:selectOneMenu>
+                    <t:message for="hrCloses" styleClass="fieldError"/>
+
+                    <p><t:outputLabel for="hrCloses" value="#{text['location.hours.hr']}"/></p>
+                </td>
+                <td>
+                    <t:selectOneMenu value="#{backingBean['minCloses']}" id="minCloses" required="true"
+                                     styleClass="select">
+                        <f:selectItem itemLabel="---" itemValue=""/>
+                        <f:selectItems value="#{selectItems.minutes}"/>
+                        <v:commonsValidator type="required" arg="#{text['location.hours.min']}"/>
+                    </t:selectOneMenu>
+                    <t:message for="minCloses" styleClass="fieldError"/>
+
+                    <p><t:outputLabel for="minCloses" value="#{text['location.hours.min']}"/></p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <t:div id="distHoursErrors">
+        <t:message for="distHoursErrors" styleClass="fieldError"/>
+    </t:div>
+
+</ui:composition>
+</html>

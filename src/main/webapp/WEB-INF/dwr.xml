@@ -1,0 +1,41 @@
+<!DOCTYPE dwr PUBLIC
+    "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN"
+    "http://getahead.ltd.uk/dwr/dwr20.dtd">
+<dwr>
+    <allow>
+        <!--create creator="spring" javascript="UserManager">
+            <param name="class" value="org.appfuse.service.UserManager"/>
+            <param name="beanName" value="userManager"/>
+            <include method="getUsers"/>
+        </create>
+        <convert converter="bean" match="org.appfuse.model.User"/-->
+
+        <convert converter="bean" match="org.sharewi.opt.model.location.Geocode"/>
+        <convert converter="bean" match="org.sharewi.opt.util.PathDwrWrapper"/>
+
+        <create creator="spring" javascript="locationDWRManager">
+            <param name="class" value="org.sharewi.opt.service.LocationManager"/>
+            <param name="beanName" value="locationManager"/>
+            <include method="preparePathWrappers"/>
+            <include method="getOtherLocations"/>
+        </create>
+
+        <create creator="spring" javascript="pathDWRManager">
+            <param name="class" value="org.sharewi.opt.service.PathManager"/>
+            <param name="beanName" value="pathManager"/>
+            <include method="updatePathsFromWrappers"/>
+        </create>
+
+    </allow>
+
+    <signatures>
+        <![CDATA[
+        import org.sharewi.opt.service.PathManager;
+        import org.sharewi.opt.util.PathDwrWrapper;
+        import java.util.List;
+
+        PathManager.updatePathsFromWrappers(List<PathDwrWrapper>);
+        ]]>
+    </signatures>
+
+</dwr>

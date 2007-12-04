@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:t="http://myfaces.apache.org/tomahawk"
+          xmlns:a4j="http://richfaces.org/a4j" xmlns:rich="http://richfaces.org/rich">
+
+    <f:loadBundle var="text" basename="#{basePage.bundleName}"/>
+
+    <ui:composition template="decorators/default-facelet.xhtml">
+
+        <ui:define name="main">
+            <a4j:region selfRendered="true">
+                <h:form id="helloForm">
+                    <h:panelGrid columns="2">
+
+                        <h:outputLabel for="input" styleClass="desc" value="Type the Text:"/>
+                        <h:inputText id="input" styleClass="text large" value="#{userForm.user.username}">
+                            <a4j:support event="onkeyup" reRender="repeater"/>
+                        </h:inputText>
+
+                        <h:outputText value="Text in the AJAX Response:"/>
+                        <h:outputText id="repeater" value="#{userForm.user.username}"
+                                      style="color: blue; margin-left: 5px"/>
+
+                    </h:panelGrid>
+                </h:form>
+            </a4j:region>
+        </ui:define>
+
+
+        <ui:define name="title">Ajax4JSF Demo</ui:define>
+
+        <ui:define name="heading">Ajax4JSF / RichFaces Demo</ui:define>
+
+        <ui:define name="head">
+            <meta name="menu" content="MainMenu"/>
+        </ui:define>
+
+    </ui:composition>
+</jsp:root>

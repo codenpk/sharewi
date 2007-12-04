@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core">
+
+
+<head>
+    <ui:include src="/common/meta.xhtml"/>
+
+    <link rel="stylesheet" type="text/css" media="all" href="/styles/${appConfig['csstheme']}/theme.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="/styles/myfaces.css"/>
+    <link rel="stylesheet" type="text/css" media="print" href="/styles/${appConfig['csstheme']}/print.css" />
+
+    <link rel="stylesheet" type="text/css" media="all" href="/styles/p7k.css" />
+
+    <script type="text/javascript" src="/scripts/prototype.js"></script>
+    <script type="text/javascript" src="/scripts/scriptaculous.js"></script>
+    <script type="text/javascript" src="/scripts/global.js"></script>
+
+    <title><ui:insert name="title">Page</ui:insert> | #{text['webapp.name']}</title>
+    <ui:insert name="head"/>
+</head>
+
+
+<f:loadBundle var="text" basename="#{basePage.bundleName}"/>
+
+<body>
+
+<div id="page">
+
+    <div id="header" class="clearfix">
+        <ui:include src="/common/header.xhtml"/>
+    </div>
+
+    <div id="content" class="clearfix">
+        <div id="main">
+            <ui:include src="/common/messages.xhtml"/>
+            <h1><ui:insert name="heading">No Heading</ui:insert></h1>
+            <ui:insert name="main">No Main</ui:insert>
+        </div>
+
+        <div id="sub">
+            <ui:insert name="local-nav"/>
+
+            <h2>Sub</h2>
+            <p>Tetrion emmisions will help the headaches of JSF development.</p>
+        </div>
+
+        <div id="nav">
+            <div class="wrapper">
+                <h2 class="accessibility">Navigation</h2>
+                <ui:include src="/common/menu.xhtml"/>
+            </div>
+            <hr/>
+        </div>
+    </div>
+
+    <div id="footer" class="clearfix">
+        <ui:include src="/common/footer.xhtml"/>
+    </div>
+
+</div>
+
+</body>
+</html>

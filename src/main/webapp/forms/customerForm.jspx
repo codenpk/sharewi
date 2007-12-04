@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:t="http://myfaces.apache.org/tomahawk"
+          xmlns:v="http://corejsf.com/validator" xmlns:p="http://p7k.org/templates">
+
+<f:view>
+<f:loadBundle var="text" basename="#{basePage.bundleName}"/>
+
+<ui:composition template="../decorators/default-facelet.xhtml">
+
+<ui:define name="main">
+
+<h:form id="locationForm">
+
+<t:inputHidden value="#{customerForm.customer.id}" id="id"/>
+<t:inputHidden value="#{customerForm.customer.version}" id="version"/>
+
+<t:inputHidden value="#{customerForm.customer.geocode.latitude}" id="lat"/>
+<t:inputHidden value="#{customerForm.customer.geocode.longitude}" id="long"/>
+
+<h:outputLabel styleClass="desc" value="Host Site"/>
+<h:panelGrid id="hostSiteGroup">
+    <t:div styleClass="group">
+        <t:div>
+            <t:outputLabel styleClass="desc" for="hostSite" value="#{text['customer.hostSite']}"/>
+            <t:message for="hostSite" styleClass="fieldError"/>
+            <t:inputText styleClass="text large" id="hostSite" value="#{customerForm.customer.hostSite}"
+                         required="true">
+                <v:commonsValidator type="required" arg="#{text['customer.hostSite']}" client="true"
+                                    server="true"/>
+            </t:inputText>
+        </t:div>
+        <t:div styleClass="left">
+            <t:outputLabel styleClass="desc" for="phone" value="#{text['location.phone']}"/>
+            <t:message for="phone" styleClass="fieldError"/>
+            <t:inputText styleClass="text SWmedium" id="phone" value="#{customerForm.customer.phone}">
+                <t:validateRegExpr pattern="^\(?(\d{3})\)?[-| ]?(\d{3})[-| ]?(\d{4})$"/>
+            </t:inputText>
+        </t:div>
+        <t:div>
+            <t:outputLabel styleClass="desc" for="email" value="#{text['location.email']}"/>
+            <t:message for="email" styleClass="fieldError"/>
+            <t:inputText styleClass="text SWmedium" id="email" value="#{customerForm.customer.email}">
+                <v:commonsValidator type="email" arg="#{text['location.email']}"/>
+            </t:inputText>
+        </t:div>
+        <t:div>
+            <h:outputLabel for="note" styleClass="desc" value="Note"/>
+            <h:inputTextarea id="note" value="#{customerForm.customer.note}" styleClass="textarea small"/>
+        </t:div>
+    </t:div>
+</h:panelGrid>
+
+<h:outputLabel styleClass="desc" value="#{text['customer.pickup']}"/>
+<h:panelGrid id="pickupGroup">
+    <t:div styleClass="group">
+        <t:message for="pickup" styleClass="fieldError"/>
+        <t:selectOneRadio id="pickup" value="#{customerForm.customer.pickup}">
+            <f:selectItems value="#{selectItems.pickup}"/>
+        </t:selectOneRadio>
+    </t:div>
+</h:panelGrid>
+
+<h:outputLabel styleClass="desc" value="Distribution Site"/>
+<h:panelGrid id="distributionSiteGroup">
+    <t:div styleClass="group">
+        <t:div>
+            <h:outputLabel styleClass="desc" for="distSite" value="#{text['customer.distSite']}"/>
+            <t:message for="distSite" styleClass="fieldError"/>
+            <h:inputText styleClass="text large" id="distSite" value="#{customerForm.customer.distSite}"
+                         required="true">
+                <v:commonsValidator type="required" arg="#{text['customer.distSite']}" client="true"
+                                    server="true"/>
+            </h:inputText>
+        </t:div>
+
+        <p:selectTimeGroup backingBean="#{customerForm}"/>
+
+        <t:div>
+            <h:outputLabel for="timeZone" styleClass="desc" value="Timezone"/>
+            <t:message for="timeZone" styleClass="fieldError"/>
+            <t:selectOneMenu id="timeZone" value="#{customerForm.customer.address.timeZone}" required="true"
+                             styleClass="select">
+                <f:selectItems value="#{selectItems.timeZones}"/>
+                <v:commonsValidator type="required" arg="timezone"/>
+            </t:selectOneMenu>
+        </t:div>
+
+        <t:div>
+            <h:outputLabel for="daysOfWeek" styleClass="desc" value="#{text['location.distDays']}"/>
+            <t:message for="daysOfWeek" styleClass="fieldError"/>
+            <t:selectManyCheckbox id="daysOfWeek" value="#{customerForm.daysOfWeek}" required="true"
+                                  styleClass="select">
+                <f:selectItems value="#{selectItems.daysOfWeek}"/>
+                <v:commonsValidator type="required" arg="#{text['location.distDays']}"/>
+            </t:selectManyCheckbox>
+        </t:div>
+    </t:div>
+</h:panelGrid>
+
+<t:outputLabel styleClass="desc section" value="Address"/>
+<p:addressGroup beanClass="#{customerForm.customer.address}" country="false"/>
+
+<t:div id="GoogleDiv">
+    <t:div id="GMap" styleClass="GMap"/>
+    <h:outputText id="choicesMessage" styleClass="fieldError" value="#{text['gmaps.choices']}"/>
+    <h:panelGrid id="GPlacemarks" styleClass="GPlacemarks glassList"/>
+</t:div>
+
+<t:panelGrid>
+    <t:panelGroup styleClass="buttonBar bottom">
+        <!-- TODO: make fetchGeocodeMap() work with the callback before the form submits -->
+        <t:commandButton value="#{text['button.save']}" action="#{customerForm.save}"
+                         styleClass="button"
+                         onclick="fetchGeocodeMap(); return validateCustomerForm(locationForm);"/>
+
+        <t:commandButton value="#{text['button.delete']}" action="#{customerForm.delete}"
+                         styleClass="button" rendered="#{customerForm.customer.id != null}"
+                         onclick="bCancel=true; return confirmDelete('Customer');"/>
+
+        <t:commandButton value="#{text['button.cancel']}" action="cancel" immediate="true"
+                         styleClass="button"
+                         onclick="bCancel=true;"/>
+    </t:panelGroup>
+</t:panelGrid>
+
+<v:validatorScript functionName="validateCustomerForm"/>
+</h:form>
+
+<script type="text/javascript" id="scriptEffects">
+    Form.focusFirstElement($('locationForm'));
+    highlightFormElements();
+</script>
+</ui:define>
+
+
+<ui:define name="head">
+    <ui:include src="/common/gMapScripts.xhtml"/>
+    <script type="text/javascript">
+        function init() {
+            initialize();
+            if ($F('locationForm:id')) fetchGeocodeMap();
+            $('locationForm:GoogleDiv').hide();
+        }
+        function fin() {
+            GUnload();
+        }
+        window.onload = init;
+        window.onunload = fin;
+    </script>
+    <meta name="menu" content="CustomerMenu"/>
+</ui:define>
+
+<ui:define name="title">#{text['customerDetail.title']}</ui:define>
+
+<ui:define name="heading">#{text['customerDetail.heading']}</ui:define>
+
+</ui:composition>
+</f:view>
+</jsp:root>

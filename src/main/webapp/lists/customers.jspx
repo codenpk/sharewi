@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:t="http://myfaces.apache.org/tomahawk"
+          xmlns:p="http://p7k.org/templates"
+          xmlns:a4j="http://richfaces.org/a4j" xmlns:rich="http://richfaces.org/rich">
+
+<f:loadBundle var="text" basename="#{basePage.bundleName}"/>
+
+<ui:composition template="../decorators/default-facelet.xhtml">
+
+<t:saveState value="#{customerList.resultSet}" id="resultSet"/>
+<ui:define name="main">
+
+<t:saveState value="#{customerList.provinces}" id="provinces"/>
+<t:saveState value="#{customerList.cities}" id="cities"/>
+<t:saveState value="#{customerList.postalCodes}" id="postalCodes"/>
+
+<t:saveState value="#{customerList.provinceSelectItems}" id="provinceSelectItems"/>
+<t:saveState value="#{customerList.citySelectItems}" id="citySelectItems"/>
+<t:saveState value="#{customerList.postalCodeSelectItems}" id="postalCodeSelectItems"/>
+
+<a4j:form id="listCustomer">
+    <table>
+        <thead>
+            <tr>
+                <th><h:outputLabel value="State" styleClass="desc"/></th>
+                <th><h:outputLabel value="City" styleClass="desc"/></th>
+                <th><h:outputLabel value="Zip Code" styleClass="desc"/></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <h:selectManyListbox id="provinceFilterList" value="#{customerList.provinces}" size="5"
+                                         valueChangeListener="#{customerList.provincesChanged}">
+                        <a4j:support event="onchange" reRender="listCustomer"/>
+                        <f:selectItem itemValue="all" itemLabel="----- All -----"/>
+                        <f:selectItems value="#{customerList.provinceSelectItems}"/>
+                    </h:selectManyListbox>
+                </td>
+                <td>
+                    <h:selectManyListbox id="cityFilterList" value="#{customerList.cities}" size="5"
+                                         valueChangeListener="#{customerList.citiesChanged}">
+                        <a4j:support event="onchange" reRender="listCustomer"/>
+                        <f:selectItem itemValue="all" itemLabel="----- All -----"/>
+                        <f:selectItems value="#{customerList.citySelectItems}"/>
+                    </h:selectManyListbox>
+                </td>
+                <td>
+                    <h:selectManyListbox id="postalCodeFilterList" value="#{customerList.postalCodes}" size="5"
+                                         valueChangeListener="#{customerList.postalCodesChanged}">
+                        <a4j:support event="onchange" reRender="listCustomer"/>
+                        <f:selectItem itemValue="all" itemLabel="----- All ------"/>
+                        <f:selectItems value="#{customerList.postalCodeSelectItems}"/>
+                    </h:selectManyListbox>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <div class="section"/>
+
+    <t:commandButton value="#{text['button.add']}" action="add" id="add" immediate="true" styleClass="button"
+                     style="margin-left: 5px"/>
+    <t:commandButton value="#{text['button.done']}" action="mainMenu" id="cancel" immediate="true" styleClass="button"
+                     style="margin-left: 5px"/>
+    <t:dataTable id="customers" var="customerVar" style="margin-top: 10px"
+                 value="#{customerList.customers}" rows="25" sortColumn="#{customerList.sortColumn}"
+                 sortAscending="#{customerList.ascending}" styleClass="scrollerTable table"
+                 headerClass="standardTable_Header" rowClasses="standardTable_Row1,standardTable_Row2">
+
+        <p:columnCommandLink value="#{customerVar.id}" url="/forms/customerForm.html"
+                             action="edit" sortColumn="id" label="#{text['location.id']}"/>
+
+        <p:column value="#{customerVar.hostSite}" sortColumn="hostSite" label="#{text['customer.hostSite']}"/>
+
+        <p:column value="#{customerVar.distSite}" sortColumn="distSite" label="#{text['customer.distSite']}"/>
+
+        <p:column value="#{customerVar.number}" sortColumn="number" label="#{text['customer.number']}"/>
+
+        <p:column value="#{customerVar.region}" sortColumn="region" label="#{text['customer.region']}"/>
+
+
+        <p:column value="#{customerVar.address.street}" sortColumn="address.street"
+                  label="#{text['location.address.street']}"/>
+
+        <p:column value="#{customerVar.address.city}" sortColumn="address.city"
+                  label="#{text['location.address.city']}"/>
+
+        <p:column value="#{customerVar.address.province}" sortColumn="address.province"
+                  label="#{text['location.address.province']}"/>
+
+        <p:column value="#{customerVar.address.postalCode}" sortColumn="address.postalCode"
+                  label="#{text['location.address.postalCode']}"/>
+
+
+        <p:column value="#{customerVar.phone}" sortColumn="phone" label="#{text['location.phone']}"/>
+
+        <p:column value="#{customerVar.operationHours.daysOfWeekAsText}" sortColumn="distDays"
+                  label="#{text['location.distDays']}"/>
+
+        <p:columnCheckbox value="#{customerVar.pickup}" sortColumn="pickup"
+                          label="#{text['customer.pickup']}" disabled="true"/>
+    </t:dataTable>
+
+    <ui:include src="/common/tableFooter.xhtml">
+        <ui:param name="tableName" value="customers"/>
+    </ui:include>
+</a4j:form>
+
+<script type="text/javascript">
+    highlightTableRows("listCustomer:customers");
+</script>
+</ui:define>
+
+
+<ui:define name="head">
+    <meta name="menu" content="CustomerMenu"/>
+</ui:define>
+
+<ui:define name="title">#{text['customerList.title']}</ui:define>
+
+<ui:define name="heading">
+    <t:htmlTag value="span">
+        <h:outputText value="#{text['customerList.heading']}"/>
+        <a4j:status>
+            <f:facet name="start">
+                <h:graphicImage value="/images/indicator.white.gif" style="margin-left:10px"/>
+            </f:facet>
+        </a4j:status>
+    </t:htmlTag>
+</ui:define>
+
+</ui:composition>
+</jsp:root>

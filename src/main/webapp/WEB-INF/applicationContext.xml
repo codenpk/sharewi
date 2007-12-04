@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/aop   http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+                           http://www.springframework.org/schema/tx    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       default-lazy-init="true">
+
+    <!-- =================================================================== -->
+    <!-- AOP: Configuration and Aspects                                      -->
+    <!-- =================================================================== -->
+    <aop:config>
+        <aop:advisor id="locationManagerTx" advice-ref="locationManagerTxAdvice"
+                     pointcut="execution(* *..service.LocationManager.*(..))" order="0"/>
+    </aop:config>
+
+    <tx:advice id="locationManagerTxAdvice">
+        <tx:attributes>
+            <tx:method name="save*" rollback-for="LocationExistsException"/>
+        </tx:attributes>
+    </tx:advice>
+
+
+    <!-- Add new DAOs here -->
+
+    <bean id="locationDao" class="org.sharewi.opt.dao.hibernate.LocationDaoHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="pathDao" class="org.sharewi.opt.dao.hibernate.PathDaoHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+
+    <bean id="eventDao" class="org.sharewi.opt.dao.hibernate.EventDaoHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+
+    <bean id="truckCompanyDao" class="org.sharewi.opt.dao.hibernate.TruckCompanyDaoHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+
+    <!-- Add new Managers here -->
+
+    <bean id="locationManager" class="org.sharewi.opt.service.impl.LocationManagerImpl">
+        <constructor-arg ref="locationDao"/>
+        <constructor-arg ref="pathManager"/>
+    </bean>
+
+    <bean id="pathManager" class="org.sharewi.opt.service.impl.PathManagerImpl">
+        <constructor-arg ref="pathDao"/>
+    </bean>
+
+    <bean id="truckCompanyManager" class="org.sharewi.opt.service.impl.TruckCompanyManagerImpl">
+        <constructor-arg ref="truckCompanyDao"/>
+    </bean>
+
+    <bean id="eventManager" class="org.sharewi.opt.service.impl.EventManagerImpl">
+        <constructor-arg ref="eventDao"/>
+    </bean>
+
+
+    <!-- Add new JSF Beans here -->
+
+    <!-- Customer Master/Detail -->
+    <bean id="customerList" class="org.sharewi.opt.webapp.action.list.CustomerList" scope="request">
+        <constructor-arg ref="locationManager"/>
+    </bean>
+    <bean id="customerForm" class="org.sharewi.opt.webapp.action.form.CustomerForm" scope="request">
+        <constructor-arg ref="locationManager"/>
+    </bean>
+
+    <!-- Depot Master/Detail -->
+    <bean id="depotList" class="org.sharewi.opt.webapp.action.list.DepotList" scope="request">
+        <constructor-arg ref="locationManager"/>
+    </bean>
+    <bean id="depotForm" class="org.sharewi.opt.webapp.action.form.DepotForm" scope="request">
+        <constructor-arg ref="locationManager"/>
+    </bean>
+
+    <!-- TruckCompany Master/Detail -->
+    <bean id="truckCompanyList" class="org.sharewi.opt.webapp.action.list.TruckCompanyList" scope="request">
+        <constructor-arg ref="truckCompanyManager"/>
+    </bean>
+    <bean id="truckCompanyForm" class="org.sharewi.opt.webapp.action.form.TruckCompanyForm" scope="request">
+        <constructor-arg ref="truckCompanyManager"/>
+    </bean>
+
+    <!-- Event Master/Detail -->
+    <bean id="eventList" class="org.sharewi.opt.webapp.action.list.EventList" scope="request">
+        <constructor-arg ref="eventManager"/>
+    </bean>
+    <bean id="eventForm" class="org.sharewi.opt.webapp.action.form.EventForm" scope="request">
+        <constructor-arg ref="eventManager"/>
+    </bean>
+
+
+    <!-- Path Fetching Screen-->
+    <bean id="pathFetch" class="org.sharewi.opt.webapp.action.PathFetch" scope="request">
+        <constructor-arg ref="locationManager"/>
+    </bean>
+
+
+    <!-- Location selection -->
+    <bean id="locationSelect" class="org.sharewi.opt.webapp.action.LocationSelect" scope="session">
+        <property name="locationManager" ref="locationManager"/>
+    </bean>
+
+    <!--EventCalendar Bean/DataModel-->
+    <bean id="eventCalendarDataModel" class="org.sharewi.opt.webapp.calendar.EventCalendarDataModel" scope="session">
+        <constructor-arg ref="eventManager"/>
+    </bean>
+    <bean id="eventCalendarBean" class="org.sharewi.opt.webapp.calendar.EventCalendarBean" scope="session"/>
+
+    <!-- Messages -->
+    <bean id="messagesBean" class="org.sharewi.opt.webapp.action.util.Messages" scope="request"/>
+
+
+    <!-- Constants -->
+    <bean id="selectItems" class="org.sharewi.opt.util.SelectItems" scope="globalSession"/>
+
+</beans>

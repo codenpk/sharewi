@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:t="http://myfaces.apache.org/tomahawk"
+          xmlns:p="http://p7k.org/templates"
+          xmlns:a4j="http://richfaces.org/a4j" xmlns:rich="http://richfaces.org/rich">
+
+    <f:loadBundle var="text" basename="#{basePage.bundleName}"/>
+
+    <ui:composition template="../decorators/default-facelet.xhtml">
+
+        <ui:define name="main">
+            <t:saveState value="#{eventList.forDate}" id="forDate"/>
+
+            <h:form id="listEvent">
+                <t:commandButton value="#{text['button.add']}" action="add" id="add" immediate="true"
+                                 styleClass="button"
+                                 style="margin-left: 5px"/>
+                <t:commandButton value="#{text['button.done']}" action="mainMenu" id="cancel" immediate="true"
+                                 styleClass="button" style="margin-left: 5px"/>
+
+                <t:dataTable id="events" var="eventVar" style="margin-top: 10px"
+                             value="#{eventList.events}" rows="25" sortColumn="#{eventList.sortColumn}"
+                             sortAscending="#{eventList.ascending}" styleClass="scrollerTable table"
+                             headerClass="standardTable_Header" rowClasses="standardTable_Row1,standardTable_Row2">
+
+                    <p:columnCommandLink value="#{eventVar.id}" url="/forms/eventForm.html"
+                                         sortColumn="id" label="#{text['event.id']}"/>
+
+                    <p:column value="#{eventVar.name}" sortColumn="Name" label="Name"/>
+
+                    <p:column value="#{eventVar.author.fullName}" sortColumn="fullName"
+                              label="#{text['event.author']}"/>
+
+                    <p:column value="#{eventVar.startDateAsString}" sortColumn="dateTimeStart.millis"
+                              label="#{text['event.date']}"/>
+
+                    <p:column value="#{eventVar.startTimeAsString}" sortColumn="dateTimeStart.millisOfDay"
+                              label="#{text['event.time']}"/>
+
+                    <p:column value="#{eventVar.dateTimeStart.zone}" sortColumn="dateTimeStart.zone"
+                              label="#{text['event.zone']}"/>
+
+                    <p:column value="#{eventVar.startDateDayOfWeek}" sortColumn="dateTimeStart.dayOfWeek"
+                              label="#{text['event.dayOfWeek']}"/>
+                </t:dataTable>
+
+                <ui:include src="/common/tableFooter.xhtml">
+                    <ui:param name="tableName" value="events"/>
+                </ui:include>
+            </h:form>
+            <script type="text/javascript">
+                highlightTableRows("listEvent:events");
+            </script>
+        </ui:define>
+
+
+        <ui:define name="head">
+            <meta name="menu" content="EventMenu"/>
+        </ui:define>
+
+        <ui:define name="title">#{text['eventList.title']}</ui:define>
+
+        <ui:define name="heading">
+            <t:htmlTag value="span">
+                <h:outputText value="#{text['eventList.heading']}"/>
+                <t:htmlTag value="span" rendered="#{eventList.forDate != null}">
+                    <h:outputText value=" for "/>
+                    <h:outputText value="#{eventList.forDateAsString}"/>
+                </t:htmlTag>
+            </t:htmlTag>
+        </ui:define>
+
+    </ui:composition>
+</jsp:root>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:t="http://myfaces.apache.org/tomahawk"
+          xmlns:p="http://p7k.org/templates"
+          xmlns:a4j="http://richfaces.org/a4j" xmlns:rich="http://richfaces.org/rich">
+
+    <f:loadBundle var="text" basename="#{basePage.bundleName}"/>
+
+    <ui:composition template="../decorators/default-facelet.xhtml">
+
+        <ui:define name="main">
+            <h:form id="editTruckCompany">
+
+                <t:commandButton value="#{text['button.add']}" action="add" id="add" immediate="true"
+                                 styleClass="button"/>
+                <t:commandButton value="#{text['button.done']}" action="mainMenu" id="cancel" immediate="true"
+                                 styleClass="button" style="margin-left: 5px"/>
+
+                <!--Error from this table is caused by http://issues.apache.org/jira/browse/TOMAHAWK-466 -->
+                <t:dataTable id="truckCompanies" var="truckCompanyVar" style="margin-top: 10px"
+                             value="#{truckCompanyList.truckCompanies}" rows="25"
+                             sortColumn="#{truckCompanyList.sortColumn}"
+                             sortAscending="#{truckCompanyList.ascending}" styleClass="scrollerTable table"
+                             headerClass="standardTable_Header" rowClasses="standardTable_Row1,standardTable_Row2">
+
+                    <p:columnCommandLink value="#{truckCompanyVar.id}" url="/forms/truckCompanyForm.html"
+                                         action="edit" sortColumn="id" label="#{text['truckCompany.id']}"/>
+
+                    <p:column value="#{truckCompanyVar.name}" sortColumn="name"
+                              label="#{text['truckCompany.name']}"/>
+
+                    <p:column value="#{truckCompanyVar.contact}" sortColumn="contact"
+                              label="#{text['truckCompany.contact']}"/>
+
+
+                    <p:column value="#{truckCompanyVar.address.street}" sortColumn="address.street"
+                              label="#{text['location.address.street']}"/>
+
+                    <p:column value="#{truckCompanyVar.address.city}" sortColumn="address.city"
+                              label="#{text['location.address.city']}"/>
+
+                    <p:column value="#{truckCompanyVar.address.province}" sortColumn="address.province"
+                              label="#{text['location.address.province']}"/>
+
+                    <p:column value="#{truckCompanyVar.address.postalCode}" sortColumn="address.postalCode"
+                              label="#{text['location.address.postalCode']}"/>
+
+
+                    <p:column value="#{truckCompanyVar.phone}" sortColumn="phone"
+                              label="#{text['truckCompany.phone']}"/>
+
+                </t:dataTable>
+
+                <ui:include src="/common/tableFooter.xhtml">
+                    <ui:param name="tableName" value="truckCompanies"/>
+                </ui:include>
+
+                <script type="text/javascript">
+                    highlightTableRows("editTruckCompany:truckCompanies");
+                </script>
+            </h:form>
+        </ui:define>
+
+
+        <ui:define name="head">
+            <meta name="menu" content="TruckCompanyMenu"/>
+        </ui:define>
+
+        <ui:define name="title">#{text['truckCompanyList.title']}</ui:define>
+
+        <ui:define name="heading">#{text['truckCompanyList.heading']}</ui:define>
+
+    </ui:composition>
+</jsp:root>

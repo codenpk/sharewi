@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:t="http://myfaces.apache.org/tomahawk">  
+
+    <f:loadBundle var="text" basename="#{basePage.bundleName}"/>
+
+    <ui:composition template="decorators/default-facelet.xhtml">
+
+        <ui:define name="main">
+            <h:form id="userProfile">
+                <h:commandLink action="#{userForm.edit}" id="edit"/>
+            </h:form>
+
+            <script type="text/javascript">
+                // Might be able to remove proprietary call if I can get @PostConstruct to work
+                oamSubmitForm('userProfile','userProfile:edit');
+            </script>
+        </ui:define>
+
+
+        <ui:define name="head"><meta name="menu" content="UserMenu"/></ui:define>
+
+    </ui:composition>
+</jsp:root>

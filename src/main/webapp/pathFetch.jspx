@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:t="http://myfaces.apache.org/tomahawk"  
+          xmlns:acegi="http://sourceforge.net/projects/jsf-comp/acegijsf"
+          xmlns:a4j="http://richfaces.org/a4j" xmlns:rich="http://richfaces.org/rich">
+    
+    <f:loadBundle var="text" basename="#{basePage.bundleName}"/>
+    
+    <ui:composition template="decorators/default-facelet.xhtml">
+
+        <ui:define name="main">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="standardTable_Header" width="10%">Source</th>
+                        <th class="standardTable_Header" width="10%">Destination</th>
+                        <th class="standardTable_Header" width="25%">Time</th>
+                        <th class="standardTable_Header" width="25%">Distance</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"/>
+            </table>
+
+            <h:form id="form">
+                <h:inputHidden id="id" value="#{pathFetch.id}"/>
+                <h:inputHidden id="type" value="#{pathFetch.type}"/>
+
+                <input type="button" id="btnRetry" value="Retry" onclick="initialize(eval('#{pathFetch.id}'));"/>
+                <h:commandButton id="btnDone" value="Done" action="#{pathFetch.done}"/>
+            </h:form>
+
+        </ui:define>
+
+
+        <ui:define name="head">
+            <script type='text/javascript' src='/dwr/engine.js'></script>
+            <script type='text/javascript' src='/dwr/util.js'></script>
+
+            <script type='text/javascript' src='/dwr/interface/locationDWRManager.js'></script>
+            <script type='text/javascript' src='/dwr/interface/pathDWRManager.js'></script>
+
+            <ui:include src="/common/gMapScripts.xhtml"/>
+            <script type="text/javascript" src="/scripts/sharewiMatrix.js"></script>
+            <script type="text/javascript">
+                function init() { initialize(eval('#{pathFetch.id}')); };
+                function fin()  { GUnload(); };
+                window.onload = init;
+                window.onunload = fin;
+            </script>
+            <meta name="menu" content="#{pathFetch.menu}"/>
+        </ui:define>
+
+        <ui:define name="title">Fetching Paths</ui:define>
+
+        <ui:define name="heading">
+            <h1>Building Time-Distance Matrix ...  <img id="progressSpinner" src="/images/indicator.white.gif" alt=""/></h1>
+        </ui:define>
+
+    </ui:composition>
+</jsp:root>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:t="http://myfaces.apache.org/tomahawk"
+          xmlns:p="http://p7k.org/templates" xmlns:a4j="http://richfaces.org/a4j">
+
+
+<f:loadBundle var="text" basename="#{basePage.bundleName}"/>
+
+<ui:composition template="../decorators/default-facelet.xhtml">
+
+<ui:define name="main">
+    <t:saveState value="#{depotList.resultSet}" id="resultSet"/>
+
+    <t:saveState value="#{depotList.provinces}" id="provinces"/>
+    <t:saveState value="#{depotList.cities}" id="cities"/>
+    <t:saveState value="#{depotList.postalCodes}" id="postalCodes"/>
+
+    <t:saveState value="#{depotList.provinceSelectItems}" id="provinceSelectItems"/>
+    <t:saveState value="#{depotList.citySelectItems}" id="citySelectItems"/>
+    <t:saveState value="#{depotList.postalCodeSelectItems}" id="postalCodeSelectItems"/>
+
+    <a4j:form id="listDepot">
+        <table>
+            <thead>
+                <tr>
+                    <th><h:outputLabel value="State" styleClass="desc"/></th>
+                    <th><h:outputLabel value="City" styleClass="desc"/></th>
+                    <th><h:outputLabel value="Zip Code" styleClass="desc"/></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <h:selectManyListbox id="provinceFilterList" value="#{depotList.provinces}" size="5"
+                                             valueChangeListener="#{depotList.provincesChanged}">
+                            <a4j:support event="onchange" reRender="listDepot"/>
+                            <f:selectItem itemValue="all" itemLabel="----- All -----"/>
+                            <f:selectItems value="#{depotList.provinceSelectItems}"/>
+                        </h:selectManyListbox>
+                    </td>
+                    <td>
+                        <h:selectManyListbox id="cityFilterList" value="#{depotList.cities}" size="5"
+                                             valueChangeListener="#{depotList.citiesChanged}">
+                            <a4j:support event="onchange" reRender="listDepot"/>
+                            <f:selectItem itemValue="all" itemLabel="----- All -----"/>
+                            <f:selectItems value="#{depotList.citySelectItems}"/>
+                        </h:selectManyListbox>
+                    </td>
+                    <td>
+                        <h:selectManyListbox id="postalCodeFilterList" value="#{depotList.postalCodes}" size="5"
+                                             valueChangeListener="#{depotList.postalCodesChanged}">
+                            <a4j:support event="onchange" reRender="listDepot"/>
+                            <f:selectItem itemValue="all" itemLabel="----- All ------"/>
+                            <f:selectItems value="#{depotList.postalCodeSelectItems}"/>
+                        </h:selectManyListbox>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="section"/>
+
+        <t:commandButton value="#{text['button.add']}" action="add" id="add" immediate="true" styleClass="button"/>
+        <t:commandButton value="#{text['button.done']}" action="mainMenu" id="cancel" immediate="true"
+                         styleClass="button" style="margin-left: 5px"/>
+
+        <t:dataTable id="depots" var="depotVar" style="margin-top: 10px"
+                     value="#{depotList.depots}" rows="25" sortColumn="#{depotList.sortColumn}"
+                     sortAscending="#{depotList.ascending}" styleClass="scrollerTable table"
+                     headerClass="standardTable_Header" rowClasses="standardTable_Row1,standardTable_Row2">
+
+            <p:columnCommandLink value="#{depotVar.id}" url="/forms/depotForm.html"
+                                 action="edit" sortColumn="id" label="#{text['location.id']}"/>
+
+            <p:column value="#{depotVar.businessName}" sortColumn="businessName"
+                      label="#{text['depot.businessName']}"/>
+
+            <p:column value="#{depotVar.operationsSite}" sortColumn="operationsSite"
+                      label="#{text['depot.operationsSite']}"/>
+
+
+            <p:column value="#{depotVar.address.street}" sortColumn="address.street"
+                      label="#{text['location.address.street']}"/>
+
+            <p:column value="#{depotVar.address.city}" sortColumn="address.city"
+                      label="#{text['location.address.city']}"/>
+
+            <p:column value="#{depotVar.address.province}" sortColumn="address.province"
+                      label="#{text['location.address.province']}"/>
+
+            <p:column value="#{depotVar.address.postalCode}" sortColumn="address.postalCode"
+                      label="#{text['location.address.postalCode']}"/>
+
+
+            <p:column value="#{depotVar.phone}" sortColumn="phone"
+                      label="#{text['location.phone']}"/>
+
+            <p:column value="#{depotVar.operationHours.daysOfWeekAsText}" sortColumn=""
+                      label="#{text['location.distDays']}"/>
+        </t:dataTable>
+
+        <ui:include src="/common/tableFooter.xhtml">
+            <ui:param name="tableName" value="depots"/>
+        </ui:include>
+    </a4j:form>
+
+    <script type="text/javascript">
+        highlightTableRows("listDepot:depots");
+    </script>
+</ui:define>
+
+
+<ui:define name="head">
+    <meta name="menu" content="DepotMenu"/>
+</ui:define>
+
+<ui:define name="title">#{text['depotList.title']}</ui:define>
+<ui:define name="heading">#{text['depotList.heading']}</ui:define>
+
+</ui:composition>
+</jsp:root>

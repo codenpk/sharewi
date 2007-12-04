@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+    <table name="app_user">
+        <column>id</column>
+        <column>username</column>
+        <column>password</column>
+        <column>first_name</column>
+        <column>last_name</column>
+        <column>address</column>
+        <column>city</column>
+        <column>country</column>
+        <column>email</column>
+        <column>phone_number</column>
+        <column>postal_code</column>
+        <column>province</column>
+        <column>website</column>
+        <column>password_hint</column>
+        <column>version</column>
+        <column>account_enabled</column>
+        <column>account_expired</column>
+        <column>account_locked</column>
+        <column>credentials_expired</column>
+        <row>
+            <value description="id">-1</value>
+            <value description="username">user</value>
+            <value description="password">12dea96fec20593566ab75692c9949596833adc9</value>
+            <value description="first_name">ShareWi</value>
+            <value description="last_name">User</value>
+            <value description="address"></value>
+            <value description="city">Milwaukee</value>
+            <value description="country">US</value>
+            <value description="email">pkatsev@p7k.org</value>
+            <value description="phone_number"></value>
+            <value description="postal_code">53202</value>
+            <value description="province">WI</value>
+            <value description="website">http://p7k.org</value>
+            <value description="password_hint"><![CDATA[A male kitty.]]></value>
+            <value description="version">1</value>
+            <value description="account_enabled">1</value>
+            <value description="account_expired">0</value>
+            <value description="account_locked">0</value>
+            <value description="credentials_expired">0</value>
+        </row>
+        <row>
+            <value description="id">-2</value>
+            <value description="username">admin</value>
+            <value description="password">c9589c08eeb2688c884fdd84fcbdac2dc06e05bc</value>
+            <value description="first_name">Pavel</value>
+            <value description="last_name">Katsev</value>
+            <value description="address"></value>
+            <value description="city">Chicago</value>
+            <value description="country">US</value>
+            <value description="email">pkatsev@gmail.com</value>
+            <value description="phone_number"></value>
+            <value description="postal_code">60089</value>
+            <value description="province">IL</value>
+            <value description="website">http://p7k.org</value>
+            <value description="password_hint"><![CDATA[Not a female kitty.]]></value>
+            <value description="version">1</value>
+            <value description="account_enabled">1</value>
+            <value description="account_expired">0</value>
+            <value description="account_locked">0</value>
+            <value description="credentials_expired">0</value>
+        </row>
+    </table>
+    <table name="role">
+        <column>id</column>
+        <column>name</column>
+        <column>description</column>
+        <row>
+            <value description="id">-1</value>
+            <value description="name">ROLE_ADMIN</value>
+            <value description="description"><![CDATA[Administrator role (can edit Users)]]></value>
+        </row>
+        <row>
+            <value description="id">-2</value>
+            <value description="name">ROLE_USER</value>
+            <value description="description"><![CDATA[Default role for all Users]]></value>
+        </row>
+    </table>
+    <table name="user_role">
+        <column>user_id</column>
+        <column>role_id</column>
+        <row>
+            <value description="user_id">-1</value>
+            <value description="role_id">-2</value>
+        </row>
+        <row>
+            <value description="user_id">-2</value>
+            <value description="role_id">-1</value>
+        </row>
+    </table>
+
+    <table name="Location">
+        <column>id</column>
+        <column>version</column>
+
+        <column>street</column>
+        <column>city</column>
+        <column>province</column>
+        <column>postalCode</column>
+        <column>country</column>
+        <column>timeZone</column>
+
+        <column>latitude</column>
+        <column>longitude</column>
+
+        <column>timeOpens</column>
+        <column>timeCloses</column>
+
+        <row>
+            <value description="id">1</value>
+            <value description="version">1</value>
+            <value description="street"></value>
+            <value description="city">Milwaukee</value>
+            <value description="province">WI</value>
+            <value description="postalCode">53202</value>
+            <value description="country">US</value>
+            <value description="timeZone">-06:00</value>
+            <value description="latitude">0.00</value>
+            <value description="longitude">0.00</value>
+            <value description="timeOpens">53100000</value>
+            <value description="timeCloses">84600000</value>
+        </row>
+        <row>
+            <value description="id">2</value>
+            <value description="version">1</value>
+            <value description="street"></value>
+            <value description="city">Evanston</value>
+            <value description="province">IL</value>
+            <value description="postalCode">60202</value>
+            <value description="country">US</value>
+            <value description="timeZone">-06:00</value>
+            <value description="latitude">0.00</value>
+            <value description="longitude">0.00</value>
+            <value description="timeOpens">53100000</value>
+            <value description="timeCloses">84600000</value>
+        </row>
+        <row>
+            <value description="id">3</value>
+            <value description="version">1</value>
+            <value description="street"></value>
+            <value description="city">Buffalo Grove</value>
+            <value description="province">IL</value>
+            <value description="postalCode">60089</value>
+            <value description="country">US</value>
+            <value description="timeZone">-06:00</value>
+            <value description="latitude">0.00</value>
+            <value description="longitude">0.00</value>
+            <value description="timeOpens">53100000</value>
+            <value description="timeCloses">84600000</value>
+        </row>
+    </table>
+
+    <table name="Customer">
+        <column>id</column>
+
+        <column>hostSite</column>
+        <column>distSite</column>
+
+        <column>number</column>
+        <column>pickup</column>
+
+        <row>
+            <value description="id">1</value>
+            <value descrition="hostSite">test host 1</value>
+            <value description="distSite">test dist 1</value>
+            <value description="number">0</value>
+            <value description="pickup">0</value>
+        </row>
+        <row>
+            <value description="id">2</value>
+            <value descrition="hostSite">test host 2</value>
+            <value description="distSite">test dist 2</value>
+            <value description="number">1</value>
+            <value description="pickup">0</value>
+        </row>
+    </table>
+
+    <table name="Depot">
+        <column>id</column>
+        <column>businessName</column>
+        <column>operationsSite</column>
+
+        <row>
+            <value description="id">3</value>
+            <value descrition="businessName">depot dummy</value>
+            <value description="operationsSite">test depot</value>
+        </row>
+    </table>
+
+
+    <table name="Path">
+        <column>id</column>
+        <column>src_id</column>
+        <column>dst_id</column>
+        <column>dist</column>
+        <column>time</column>
+
+        <row>
+            <value description="id">1</value>
+            <value description="src_id">1</value>
+            <value description="dst_id">2</value>
+            <value description="dist">10.</value>
+            <value description="time">1.</value>
+        </row>
+        <row>
+            <value description="id">2</value>
+            <value description="src_id">1</value>
+            <value description="dst_id">3</value>
+            <value description="dist">20.</value>
+            <value description="time">2.</value>
+        </row>
+
+        <row>
+            <value description="id">3</value>
+            <value description="src_id">2</value>
+            <value description="dst_id">1</value>
+            <value description="dist">10.</value>
+            <value description="time">1.</value>
+        </row>
+        <row>
+            <value description="id">4</value>
+            <value description="src_id">2</value>
+            <value description="dst_id">3</value>
+            <value description="dist">30.</value>
+            <value description="time">3.</value>
+        </row>
+
+        <row>
+            <value description="id">5</value>
+            <value description="src_id">3</value>
+            <value description="dst_id">1</value>
+            <value description="dist">20.</value>
+            <value description="time">2.</value>
+        </row>
+        <row>
+            <value description="id">6</value>
+            <value description="src_id">3</value>
+            <value description="dst_id">2</value>
+            <value description="dist">30.</value>
+            <value description="time">3.</value>
+        </row>
+    </table>
+
+    <table name="TruckCompany">
+        <column>id</column>
+        <column>version</column>
+        <column>name</column>
+        <column>email</column>
+        <column>phone</column>
+        <column>contact</column>
+        <column>street</column>
+        <column>city</column>
+        <column>province</column>
+        <column>postalCode</column>
+        <column>country</column>
+        <column>timeZone</column>
+        <column>latitude</column>
+        <column>longitude</column>
+        <row>
+            <value description="id">1</value>
+            <value description="version">1</value>
+            <value description="name">test truck company 1</value>
+            <value description="email">test@test.org</value>
+            <value description="phone">847-219-1048</value>
+            <value description="contact">John Doe</value>
+            <value description="street"></value>
+            <value description="city">Milwaukee</value>
+            <value description="province">WI</value>
+            <value description="postalCode">53202</value>
+            <value description="country">US</value>
+            <value description="timeZone">-06:00</value>
+            <value description="latitude">0.00</value>
+            <value description="longitude">0.00</value>
+        </row>
+    </table>
+    <table name="TruckCompany_Fee">
+        <column>pos</column>
+        <column>TruckCompany_id</column>
+        <column>name</column>
+        <column>type</column>
+        <column>amount</column>
+        <column>description</column>
+        <row>
+            <value description="pos">0</value>
+            <value description="TruckCompany_id">1</value>
+            <value description="name">test fee</value>
+            <value description="type">1</value>
+            <value description="amount">15.99</value>
+            <value description="description">test fee</value>
+        </row>
+    </table>
+
+    <table name="Event">
+        <column>id</column>
+        <column>version</column>
+        <column>createdOn</column>
+        <column>author_id</column>
+        <column>name</column>
+        <column>note</column>
+        <column>dateTime</column>
+        <column>timeZone</column>
+        <row>
+            <value description="id">1</value>
+            <value description="version">1</value>
+            <value description="createdOn"><![CDATA[2007-11-13 10:00:00]]></value>
+            <value description="author_id">-1</value>
+            <value description="name">test event 1</value>
+            <value description="note"></value>
+            <value description="dateTime">1194964200001</value>
+            <value description="timeZone">-06:00</value>
+        </row>
+        <row>
+            <value description="id">2</value>
+            <value description="version">1</value>
+            <value description="createdOn"><![CDATA[2007-11-20 20:55:12]]></value>
+            <value description="author_id">-1</value>
+            <value description="name">test event 2</value>
+            <value description="note"></value>
+            <value description="dateTime">1194964200000</value>
+            <value description="timeZone">-05:00</value>
+        </row>
+        <row>
+            <value description="id">3</value>
+            <value description="version">1</value>
+            <value description="createdOn"><![CDATA[2007-12-14 12:01:00]]></value>
+            <value description="author_id">-1</value>
+            <value description="name">test event 3</value>
+            <value description="note"></value>
+            <value description="dateTime">1195108200000</value>
+            <value description="timeZone">-07:00</value>
+        </row>
+    </table>
+    <table name="Event_Customer">
+        <column>Event_id</column>
+        <column>customer_id</column>
+        <column>pickup</column>
+        <column>demand</column>
+        <row>
+            <value description="Event_id">1</value>
+            <value description="customer_id">1</value>
+            <value description="pickup">0</value>
+            <value description="demand">4</value>
+        </row>
+        <row>
+            <value description="Event_id">1</value>
+            <value description="customer_id">2</value>
+            <value description="pickup">0</value>
+            <value description="demand">4</value>
+        </row>
+        <row>
+            <value description="Event_id">2</value>
+            <value description="customer_id">1</value>
+            <value description="pickup">0</value>
+            <value description="demand">4</value>
+        </row>
+        <row>
+            <value description="Event_id">2</value>
+            <value description="customer_id">2</value>
+            <value description="pickup">0</value>
+            <value description="demand">4</value>
+        </row>
+        <row>
+            <value description="Event_id">3</value>
+            <value description="customer_id">1</value>
+            <value description="pickup">0</value>
+            <value description="demand">4</value>
+        </row>
+        <row>
+            <value description="Event_id">3</value>
+            <value description="customer_id">2</value>
+            <value description="pickup">0</value>
+            <value description="demand">4</value>
+        </row>
+    </table>
+    <table name="Event_Depot">
+        <column>Event_id</column>
+        <column>depot_id</column>
+        <row>
+            <value description="Event_id">1</value>
+            <value description="depot_id">3</value>
+        </row>
+        <row>
+            <value description="Event_id">2</value>
+            <value description="depot_id">3</value>
+        </row>
+        <row>
+            <value description="Event_id">3</value>
+            <value description="depot_id">3</value>
+        </row>
+    </table>
+    <table name="Event_TruckCompany">
+        <column>Event_id</column>
+        <column>truckCompany_id</column>
+        <row>
+            <value description="Event_id">1</value>
+            <value description="truckCompany_id">1</value>
+        </row>
+        <row>
+            <value description="Event_id">2</value>
+            <value description="truckCompany_id">1</value>
+        </row>
+        <row>
+            <value description="Event_id">3</value>
+            <value description="truckCompany_id">1</value>
+        </row>
+    </table>
+
+</dataset>

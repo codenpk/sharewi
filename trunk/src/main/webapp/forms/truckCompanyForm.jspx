@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:t="http://myfaces.apache.org/tomahawk"
+          xmlns:acegi="http://sourceforge.net/projects/jsf-comp/acegijsf"
+          xmlns:a4j="http://richfaces.org/a4j" xmlns:rich="http://richfaces.org/rich">
+
+    <f:loadBundle var="text" basename="#{basePage.bundleName}"/>
+
+    <ui:composition template="../decorators/default-facelet.xhtml">
+
+        <ui:define name="main">
+            <t:saveState id="tc" value="#{truckCompanyForm.truckCompany}"/>
+
+            <rich:tabPanel id="tabPanel" switchType="ajax" headerAlignment="right" ontabchange="">
+                <rich:tab id="basicTab" ontableave="GUnload();">
+                    <f:facet name="label">Basic</f:facet>
+                    <ui:include src="truckCompanyFormBasic.jspx"/>
+                </rich:tab>
+                <rich:tab id="feesTab">
+                    <f:facet name="label">Fees</f:facet>
+                    <ui:include src="truckCompanyFormFees.jspx"/>
+                </rich:tab>
+                <rich:tab id="trucksTab">
+                    <f:facet name="label">Trucks</f:facet>
+                    <ui:include src="truckCompanyFormTrucks.jspx"/>
+                </rich:tab>
+            </rich:tabPanel>
+
+        </ui:define>
+
+
+        <ui:define name="head">
+            <meta name="menu" content="TruckCompanyMenu"/>
+            <ui:include src="/common/gMapScripts.xhtml"/>
+        </ui:define>
+
+        <ui:define name="title">#{text['truckCompanyDetail.title']}</ui:define>
+
+        <ui:define name="heading">
+            <t:htmlTag value="span">
+                <t:outputText value="#{text['truckCompanyDetail.heading']}"/>
+                <a4j:status>
+                    <f:facet name="start">
+                        <t:graphicImage value="/images/indicator.white.gif" style="margin-left:10px"/>
+                    </f:facet>
+                </a4j:status>
+            </t:htmlTag>
+        </ui:define>
+
+    </ui:composition>
+</jsp:root>

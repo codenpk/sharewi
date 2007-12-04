@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:h="http://java.sun.com/jsf/html" xmlns:t="http://myfaces.apache.org/tomahawk"
+       xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:rich="http://richfaces.org/rich"
+       xmlns:acegi="http://sourceforge.net/projects/jsf-comp/acegijsf">
+
+<ui:composition>
+
+    <h:form>
+
+        <rich:toolBar>
+            <rich:toolBarGroup location="left">
+
+                <acegi:authorize ifAllGranted="ROLE_ADMIN">
+                    <rich:dropDownMenu value="#{text['menu.admin']}">
+                        <rich:menuItem value="#{text['menu.admin.users']}" action="users"/>
+                        <rich:menuItem value="#{text['menu.admin.reload']}" action="reload"/>
+                        <rich:menuItem value="#{text['mainMenu.activeUsers']}" action="activeUsers"
+                                       immediate="true"/>
+                        <rich:menuItem value="#{text['menu.flushCache']}" action="flushCache"
+                                       immediate="true"/>
+                    </rich:dropDownMenu>
+                </acegi:authorize>
+
+                <rich:menuItem value="#{text['menu.logout']}" action="logout" immediate="true" />
+                <rich:dropDownMenu value="Customers">
+                    <rich:menuItem value="#{text['menu.logout']}" action="logout" immediate="true"/>
+                    <rich:menuItem value="#{text['menu.logout']}" action="logout" immediate="true"/>
+                </rich:dropDownMenu>
+            </rich:toolBarGroup>
+
+            <rich:toolBarGroup location="right">
+                <rich:menuItem value="#{text['menu.logout']}" action="logout" immediate="true"/>
+            </rich:toolBarGroup>
+
+        </rich:toolBar>
+    </h:form>
+
+</ui:composition>
+</html>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:v="http://corejsf.com/validator">
+
+<ui:composition>
+
+    <h:panelGrid columns="1">
+        <t:div styleClass="group">
+
+            <t:panelGroup>
+                <div>
+                    <t:inputText value="#{beanClass['street']}" id="street" styleClass="text large"/>
+                    <t:message for="street" styleClass="fieldError"/>
+                    <p><t:outputLabel for="street" value="#{text['location.address.street']}"/></p>
+                </div>
+            </t:panelGroup>
+
+            <t:panelGroup>
+                <div class="left">
+                    <t:inputText value="#{beanClass['city']}" id="city" required="true" styleClass="text medium">
+                        <v:commonsValidator type="required" arg="#{text['location.address.city']}"/>
+                    </t:inputText>
+                    <t:message for="city" styleClass="fieldError"/>
+                    <p><t:outputLabel for="city" value="#{text['location.address.city']}"/></p>
+                </div>
+
+                <div>
+                    <t:selectOneMenu value="#{beanClass['province']}" id="province" required="true" styleClass="select">
+                        <f:selectItem itemValue="" itemLabel="---"/>
+                        <f:selectItems value="#{selectItems.provinces}"/>
+                        <v:commonsValidator type="required" arg="#{text['location.address.province']}"/>
+                    </t:selectOneMenu>
+                    <t:message for="province" styleClass="fieldError"/>
+                    <p><t:outputLabel for="province" value="#{text['location.address.province']}"/></p>
+                </div>
+            </t:panelGroup>
+
+            <t:panelGroup>
+                <div>
+                    <t:inputText value="#{beanClass['postalCode']}" id="postalCode" required="true" styleClass="text medium">
+                        <v:commonsValidator type="required" arg="#{text['location.address.postalCode']}"/>
+                        <t:validateRegExpr pattern="(^\d{5}$)|(^\d{5}-\d{4}$)"/>
+                    </t:inputText>
+                    <t:message for="postalCode" styleClass="fieldError"/>
+                    <p><t:outputLabel for="postalCode" value="#{text['location.address.postalCode']}"/></p>
+                </div>
+            </t:panelGroup>
+
+            <t:panelGroup rendered="#{country}">
+                <div>
+                    <t:selectOneCountry id="country" value="#{beanClass['country']}" styleClass="select"/>
+                    <t:message for="country" styleClass="fieldError"/>
+                    <p><t:outputLabel for="country" value="#{text['location.address.country']}"/></p>
+                </div>
+            </t:panelGroup>
+
+            <t:panelGroup>
+                <div>
+                    <input type="button" value="Map Location"
+                           onclick="$('locationForm:GoogleDiv').show(); fetchGeocodeMap(); return false;"/>
+                </div>
+            </t:panelGroup>
+
+        </t:div>
+    </h:panelGrid>
+
+</ui:composition>
+</html>

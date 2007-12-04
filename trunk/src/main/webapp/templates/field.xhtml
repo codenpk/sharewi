@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:v="http://corejsf.com/validator" xmlns:c="http://java.sun.com/jstl/core">
+
+<ui:composition>
+
+    <c:if test="${empty label}">
+        <c:set var="label" value="${fieldName}" />
+    </c:if>
+
+    <c:if test="${empty required}">
+        <c:set var="required" value="true" />
+    </c:if>
+
+    <t:htmlTag value="div" styleClass="#{styleClass}">
+        <t:outputLabel styleClass="desc" for="#{id}" value="#{label}"/>
+        <t:message for="#{id}" styleClass="fieldError"/>
+        <t:inputText styleClass="#{styleClass}" id="#{id}" value="#{fieldName}" required="#{required}">
+            <ui:insert />
+        </t:inputText>
+    </t:htmlTag>
+
+</ui:composition>
+</html>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:t="http://myfaces.apache.org/tomahawk"
+          xmlns:v="http://corejsf.com/validator" xmlns:p="http://p7k.org/templates"
+          xmlns:a4j="http://richfaces.org/a4j" xmlns:rich="http://richfaces.org/rich">
+    <f:view>
+        <f:loadBundle var="text" basename="#{basePage.bundleName}"/>
+
+        <ui:composition>
+
+            <a4j:form id="locationForm">
+
+                <t:outputLabel styleClass="desc" value="Basic Information"/>
+                <h:panelGrid id="basic_FormGroup">
+                    <t:div styleClass="group">
+                        <div>
+                            <t:outputLabel styleClass="desc" for="name" value="#{text['truckCompany.name']}"/>
+                            <t:message for="name" styleClass="fieldError"/>
+                            <t:inputText styleClass="text large" id="name" value="#{truckCompanyForm.truckCompany.name}"
+                                         required="true">
+                                <v:commonsValidator type="required" arg="#{text['truckCompany.name']}" client="true"
+                                                    server="true"/>
+                            </t:inputText>
+                        </div>
+                        <div class="left">
+                            <t:outputLabel styleClass="desc" for="phone" value="#{text['truckCompany.phone']}"/>
+                            <t:message for="phone" styleClass="fieldError"/>
+                            <t:inputText styleClass="text SWmedium" id="phone"
+                                         value="#{truckCompanyForm.truckCompany.phone}">
+                                <t:validateRegExpr pattern="^\(?(\d{3})\)?[-| ]?(\d{3})[-| ]?(\d{4})$"/>
+                            </t:inputText>
+                        </div>
+                        <div>
+                            <t:outputLabel styleClass="desc" for="email" value="#{text['truckCompany.email']}"/>
+                            <t:message for="email" styleClass="fieldError"/>
+                            <t:inputText styleClass="text SWmedium" id="email"
+                                         value="#{truckCompanyForm.truckCompany.email}">
+                                <v:commonsValidator type="email" arg="#{text['location.email']}"/>
+                            </t:inputText>
+                        </div>
+                        <div>
+                            <t:outputLabel for="note" styleClass="desc" value="Note"/>
+                            <t:inputTextarea id="note" value="#{truckCompanyForm.truckCompany.note}"
+                                             styleClass="textarea small"/>
+                        </div>
+                    </t:div>
+                </h:panelGrid>
+
+                <t:outputLabel styleClass="desc" value="Address"/>
+                <p:addressGroup beanClass="#{truckCompanyForm.truckCompany.address}" country="false"/>
+                <t:inputHidden value="#{truckCompanyForm.truckCompany.geocode.latitude}" id="lat"/>
+                <t:inputHidden value="#{truckCompanyForm.truckCompany.geocode.longitude}" id="long"/>
+
+                <t:div id="GoogleDiv">
+                    <t:div id="GMap" styleClass="GMap"/>
+                    <t:outputText id="choicesMessage" styleClass="fieldError" value="#{text['gmaps.choices']}"/>
+                    <t:panelGrid id="GPlacemarks" styleClass="GPlacemarks glassList"/>
+                </t:div>
+
+                <t:panelGrid id="buttons">
+                    <t:panelGroup styleClass="buttonBar bottom">
+                        <t:commandButton value="#{text['button.save']}" action="#{truckCompanyForm.save}"
+                                         styleClass="button"
+                                         onclick="fetchGeocodeMap(); return validateTruckCompanyForm(locationForm);"/>
+
+                        <t:commandButton value="#{text['button.delete']}" action="#{truckCompanyForm.delete}"
+                                         styleClass="button" rendered="#{truckCompanyForm.truckCompany.id != null}"
+                                         onclick="bCancel=true; return confirmDelete('Truck Company');"/>
+
+                        <t:commandButton value="#{text['button.cancel']}" action="cancel" immediate="true"
+                                         styleClass="button"
+                                         onclick="bCancel=true;"/>
+                    </t:panelGroup>
+                </t:panelGrid>
+
+                <v:validatorScript functionName="validateTruckCompanyForm"/>
+            </a4j:form>
+
+            <script type="text/javascript" id="basicScripts">
+                initialize();
+                $('locationForm:GoogleDiv').hide();
+                fetchGeocodeMap();
+
+                window.onunload = GUnload;
+
+                Form.focusFirstElement($('locationForm'));
+                highlightFormElements();
+            </script>
+
+        </ui:composition>
+    </f:view>
+</jsp:root>

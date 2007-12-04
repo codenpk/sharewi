@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:t="http://myfaces.apache.org/tomahawk">
+
+    <f:loadBundle var="text" basename="#{basePage.bundleName}"/>
+
+    <ui:composition template="decorators/default-facelet.xhtml">
+
+        <ui:define name="main">
+            <p>Below is a list of attributes that were gathered in FileUpload.java.</p>
+
+            <div class="separator"/>
+
+            <table class="detail" cellpadding="5">
+                <tr>
+                    <th>Friendly Name:</th>
+                    <td>#{friendlyName}</td>
+                </tr>
+                <tr>
+                    <th>Filename:</th>
+                    <td>#{fileName}</td>
+                </tr>
+                <tr>
+                    <th>File content type:</th>
+                    <td>#{contentType}</td>
+                </tr>
+                <tr>
+                    <th>File size:</th>
+                    <td>#{size}</td>
+                </tr>
+                <tr>
+                    <th class="tallCell">File Location:</th>
+                    <td>The file has been written to: <br/>
+                        <a href="#{link}">#{location}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td/>
+                    <td class="buttonBar">
+                        <input type="button" name="done" id="done" value="Done"
+                               onclick="location.href='mainMenu.html'"/>
+                        <input type="button" name="done" style="width: 120px" value="Upload Another"
+                               onclick="location.href='selectFile.html'"/>
+                    </td>
+                </tr>
+            </table>
+        </ui:define>
+
+
+        <ui:define name="title">#{text['display.title']}</ui:define>
+
+        <ui:define name="heading">#{text['display.heading']}</ui:define>
+
+        <ui:define name="head">
+            <meta name="menu" content="AdminMenu"/>
+        </ui:define>
+
+    </ui:composition>
+</jsp:root>

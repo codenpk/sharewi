@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jstl/core">
+
+<ui:composition>
+
+    <c:if test="#{not empty messagesBean.errors}">
+        <div class="error" id="errorMessages">
+            <c:forEach var="error" items="#{messagesBean.errors}">
+                <img src="/images/iconWarning.gif" alt="#{text['icon.warning']}" class="icon"/>
+                <h:outputFormat value="#{error}" escape="false"/><br/>
+            </c:forEach>
+        </div>
+    </c:if>
+
+    <c:if test="#{not empty messagesBean.messages}">
+        <div class="message" id="successMessages">
+            <c:forEach var="msg" items="#{messagesBean.messages}">
+                <img src="/images/iconInformation.gif" alt="#{text['icon.information']}" class="icon"/>
+                <h:outputFormat value="#{msg}" escape="false"/><br/>
+            </c:forEach>
+        </div>
+    </c:if>
+
+</ui:composition>
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition>
+
+        <head>
+            <title><ui:insert name="title">No Title</ui:insert></title>
+            <ui:insert name="head"/>
+        </head>
+
+        <f:loadBundle var="text" basename="#{basePage.bundleName}"/>
+
+        <body>
+
+        <div id="main">
+            <ui:include src="/common/messages.xhtml"/>
+
+            <h1><ui:insert name="heading">No Heading</ui:insert></h1>
+            <ui:insert name="main">No Main</ui:insert>
+        </div>
+
+        <div id="sub">
+            <ui:include src="../templates/eventCalendar.xhtml"/>
+
+            <ui:insert name="local-nav"/>
+
+            <div>
+                <h2>Sub Heading</h2>
+
+                <p>
+                    Lorem ipsum dolor sit amet, obruo modo dolus lobortis iaceo, accumsan iustum humo.
+                    Ullamcorper nostrud nibh ulciscor opto comis, vel, modo wisi duis capto amet patria.
+                    Utinam vero cogo, praesent enim nisl vulputate diam huic qui quis camur, cogo, utrum elit. Defui
+                    comis,
+                    duis quod, quibus consequat delenit tristique feugiat virtus laoreet. Praesent haero fatua quae
+                    scisco
+                    minim at bene ex euismod. Defui eu ullamcorper esca aptent.
+                </p>
+            </div>
+        </div>
+
+        </body>
+
+    </ui:composition>
+</html>

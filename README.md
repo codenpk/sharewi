@@ -10,14 +10,10 @@ The mathematics involved in this project are relevant to the Open Vehicle Routin
 # ImmediateGoals  
 
 # Location Form
-Design a layout
-Implement a layout
-Integrate MapQuest into the form
-Design the logic and object structure for storing/updating/maintaining the time-distance matrix
-Details
-Add your content here. Format your content with:
+* Design a layout
 
-# Text in bold or italic
-Headings, paragraphs, and lists
-Automatic links to other wiki pages
- 
+* Implement a layout
+
+* Integrate MapQuest into the form
+
+* Design the logic and object structure for storing/updating/maintaining the time-distance matrix
